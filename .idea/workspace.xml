@@ -8,8 +8,8 @@
     </list>
     <ignored path="quinnie-redo-html-proto.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="da35ee5a-7da7-4de0-b024-78cd5ed18149" time="1415733486486" ignored="false" />
-    <file path="/.gitignore" changelist="da35ee5a-7da7-4de0-b024-78cd5ed18149" time="1415733177609" ignored="false" />
+    <file path="/Dummy.txt" changelist="da35ee5a-7da7-4de0-b024-78cd5ed18149" time="1415733546126" ignored="false" />
+    <file path="/.gitignore" changelist="da35ee5a-7da7-4de0-b024-78cd5ed18149" time="1415733534082" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +73,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="126" selection-end="126" vertical-scroll-proportion="0.32409012">
+            <state line="13" column="5" selection-start="131" selection-end="131" vertical-scroll-proportion="0.32409012">
               <folding />
             </state>
           </provider>
@@ -181,6 +181,7 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/css" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -327,7 +328,15 @@
       <created>1415733487350</created>
       <updated>1415733487350</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="removed .idea">
+      <created>1415733509702</created>
+      <updated>1415733509702</updated>
+    </task>
+    <task id="LOCAL-00007" summary="removed .idea">
+      <created>1415733547032</created>
+      <updated>1415733547032</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -450,7 +459,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="126" selection-end="126" vertical-scroll-proportion="0.32409012">
+        <state line="13" column="5" selection-start="131" selection-end="131" vertical-scroll-proportion="0.32409012">
           <folding />
         </state>
       </provider>
