@@ -8,12 +8,15 @@
         <script>window.jQuery || document.write('<script src="../js/jquery-1.10.2.min.js"><\/script>')</script>
         <script src="../js/plugins.js"></script>
         <script src="../js/main.js"></script>
+        <script src="../js/linq.min.js"></script>
+        <script src="../js/jquery.linq.min.js"></script>
+        <script src="../js/knockout-3.2.0.js"></script>
+        <script src="../js/moviedata.js"></script>
         <link rel="stylesheet" href="../css/main.css">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/custom.css" rel="stylesheet">
-
+		<!-- Bootstrap Core CSS -->
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/custom.css" rel="stylesheet">
     </head>
 
     <body>

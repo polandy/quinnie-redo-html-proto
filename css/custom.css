@@ -63,3 +63,33 @@ footer {
     border: 1px solid #000000;
     float: left;
 }
+
+.movie-list {
+	list-style: none;
+	padding: 0px;
+}
+
+.movie-list img {
+	height: 180px;
+	float: left;
+	margin-right: 15px;
+}
+
+.movie-list h3 {
+	margin-top: 0px;
+}
+
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
