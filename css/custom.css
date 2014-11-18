@@ -30,3 +30,36 @@ body {
 footer {
 	margin: 50px 0;
 }
+
+
+/*************************************
+*         Reservation styles
+*************************************/
+
+#res-canvas {
+    width: 100%;
+    height: 2em;
+    background: #f5e79e;
+    border: 1px solid #000000;
+    text-align: center;
+    line-height: 2em;
+    margin-bottom: 2em;
+}
+
+.res-chairs {
+    width: 100%;
+    display: block;
+}
+
+.res-chair-row {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.res-chair {
+    width: 2em;
+    height: 2em;
+    margin: 0.5em;
+    border: 1px solid #000000;
+    float: left;
+}
