@@ -12,6 +12,10 @@ include "layout/header.php"; ?>
 	            Arthouse Kinos organisatorisch unter einem Dach. Gezeigt werden Spielfilme,
 	            Dokumentarfilme, Schweizer Filme und Studiofilme für ein anspruchsvolles Kinopublikum.
 	        </p>
+	        <br />
+	        <img src="http://www.quinnie.ch/images/temp_home/imrichtigenfilm.jpg" width=100% height=300px />
+	        <br />
+	        <br />
 	        <p>
 		        Wir bieten Kinoerlebnisse auf höchstem Niveau. Einein
 	            Bild und Ton perfekte und pannenfreie Filmvorführung
