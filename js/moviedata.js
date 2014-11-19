@@ -1,11 +1,12 @@
 var quinnie = quinnie || {};
 quinnie.objects = quinnie.objects || {};
 
-quinnie.objects.movie = function (name, description, image, categories, director, actors, cinemaShows)
+quinnie.objects.movie = function (name, description, releaseDate, image, categories, director, actors, cinemaShows)
 {
 	this.name = ko.observable(name);
 	this.description = ko.observable(description);
 	this.image = ko.observable(image);
+	this.releaseDate = ko.observable(new Date(releaseDate));
 
 	this.categories = ko.observableArray(categories);
 	this.director = ko.observable(director);
@@ -20,14 +21,10 @@ quinnie.objects.movie = function (name, description, image, categories, director
 		var result = Enumerable
 				.From(self.cinemaShows())
 				.OrderBy(function (x) {
-				console.log("ordering cinema shows");
-				console.log(x);
 					var ticksInFuture = x.nextShow().showDate().getTime() - now;
 					return ticksInFuture < 0 ? Number.MAX_VALUE : ticksInFuture;
 				})
 				.FirstOrDefault();
-
-		console.log(result);
 
 		return result;
 	});
@@ -56,29 +53,78 @@ quinnie.objects.cinemaShows = function (language, cinema, cost, shows)
 	});
 };
 
-quinnie.objects.shows = function (time)
-{
+quinnie.objects.shows = function (time) {
 	this.time = ko.observable(time);
 
 	this.showDate = ko.computed(function() {
 		return new Date(time);
 	});
+
+	this.formatDate = ko.computed(function () {
+		var mom = moment(this.showDate());
+
+		return mom.format("ddd DD.MM HH:MM") + " | " + mom.fromNow();
+	}, this);
+
 };
 
-quinnie.objects.movieData = function ()
-{
-	this.text = ko.observable("My Dummy Text");
+quinnie.objects.movieData = function () {
+	var self = this;
 	this.movies = ko.observableArray();
+
+	this.newestMovies = ko.computed(function () {
+		var now = new Date();
+
+		return Enumerable
+			.From(self.movies())
+			.Where(function (x) {
+				return x.releaseDate().getTime() < now.getTime();
+			})
+			.OrderByDescending(function (x) {
+				return x.releaseDate().getTime();
+			})
+			.Take(3)
+			.ToArray();
+	});
+
+	this.upcomingMovies = ko.computed(function () {
+		var now = new Date();
+
+		return Enumerable
+			.From(self.movies())
+			.Where(function (x) {
+				return x.releaseDate().getTime() > now.getTime();
+			})
+			.OrderBy(function (x) {
+				return x.releaseDate().getTime();
+			})
+			.Take(3)
+			.ToArray();
+	});
+
+	this.nextMovies = ko.computed(function() {
+		var now = new Date();
+
+		return Enumerable
+			.From(self.movies())
+			.Where(function (x) {
+				return x.nextCinemaShow() != null && x.nextCinemaShow().nextShow().showDate().getTime() > now.getTime();
+			})
+			.OrderBy(function (x) {
+				return x.nextCinemaShow().nextShow().showDate().getTime();
+			})
+			.Take(3)
+			.ToArray();
+	});
 };
 
-
-
-
+moment.locale("de");
 quinnie.data = new quinnie.objects.movieData();
 
 quinnie.data.movies.push(new quinnie.objects.movie(
 	"Marco Polo", 
 	"In a world replete with greed, betrayal, sexual intrigue and rivalry, \"Marco Polo\" is based on the famed explorer's adventures in Kublai Khan's court in 13th century China.",
+	"11/18/2014",
 	"http://ia.media-imdb.com/images/M/MV5BMTcwMDU5NzMzOV5BMl5BanBnXkFtZTgwNzk5NTE0MzE@._V1_SY317_CR0,0,214,317_AL_.jpg",
 	["Adventure", "Action"],
 	"Unknown",
@@ -103,6 +149,7 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 quinnie.data.movies.push(new quinnie.objects.movie(
 	"Cake",
 	"Claire initiates a dubious relationship with a widower while confronting fantastical hallucinations of his dead wife.",
+	"3/1/2015",
 	"http://ia.media-imdb.com/images/M/MV5BMTc4NDYzNTcyM15BMl5BanBnXkFtZTgwNjQ5NzQ0MzE@._V1_SY317_CR0,0,214,317_AL_.jpg",
 	["Drama"],
 	"Daniel Barnz",
@@ -111,6 +158,7 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 quinnie.data.movies.push(new quinnie.objects.movie(
 	"Fifty Shades of Grey",
 	"Literature student Anastasia Steele's life changes forever when she meets handsome, yet tormented, billionaire Christian Grey.",
+	"2/13/2015",
 	"http://ia.media-imdb.com/images/M/MV5BMjE1MTM4NDAzOF5BMl5BanBnXkFtZTgwNTMwNjI0MzE@._V1_SX214_AL_.jpg",
 	["Drama", "Romance"],
 	"Sam Taylor-Johnson",
