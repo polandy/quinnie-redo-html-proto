@@ -19,8 +19,8 @@ include "layout/header.php"; ?>
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
 
-							<p data-bind="foreach: cinemaShows">
-								<span data-bind="text: cinema()+' '+language()"></span>
+							<p data-bind="if: nextCinemaShow">
+								<span data-bind="text: nextCinemaShow().cinema()+' '+nextCinemaShow().language()+' ' +nextCinemaShow().nextShow().showDate()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>

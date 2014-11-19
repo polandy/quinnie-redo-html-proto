@@ -12,6 +12,25 @@ quinnie.objects.movie = function (name, description, image, categories, director
 	this.actors = ko.observableArray(actors);
 
 	this.cinemaShows = ko.observableArray(cinemaShows);
+	var self = this;
+
+	this.nextCinemaShow = ko.computed(function () {
+		var now = new Date().getTime();
+
+		var result = Enumerable
+				.From(self.cinemaShows())
+				.OrderBy(function (x) {
+				console.log("ordering cinema shows");
+				console.log(x);
+					var ticksInFuture = x.nextShow().showDate().getTime() - now;
+					return ticksInFuture < 0 ? Number.MAX_VALUE : ticksInFuture;
+				})
+				.FirstOrDefault();
+
+		console.log(result);
+
+		return result;
+	});
 };
 
 quinnie.objects.cinemaShows = function (language, cinema, cost, shows)
@@ -21,11 +40,29 @@ quinnie.objects.cinemaShows = function (language, cinema, cost, shows)
 	this.cost = ko.observable(cost);
 	
 	this.shows = ko.observableArray(shows);
+
+	var self = this;
+
+	this.nextShow = ko.computed(function () {
+		var now = new Date().getTime();
+
+		return Enumerable
+				.From(self.shows())
+				.OrderBy(function(x) {
+					var ticksInFuture = x.showDate().getTime() - now;
+					return ticksInFuture < 0 ? Number.MAX_VALUE : ticksInFuture;
+				})
+				.FirstOrDefault();
+	});
 };
 
 quinnie.objects.shows = function (time)
 {
 	this.time = ko.observable(time);
+
+	this.showDate = ko.computed(function() {
+		return new Date(time);
+	});
 };
 
 quinnie.objects.movieData = function ()
@@ -33,6 +70,8 @@ quinnie.objects.movieData = function ()
 	this.text = ko.observable("My Dummy Text");
 	this.movies = ko.observableArray();
 };
+
+
 
 
 quinnie.data = new quinnie.objects.movieData();
@@ -45,25 +84,20 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 	"Unknown",
 	["Chin Han", "Mahesh Jadu", "Lorenzo Richelmy"],
 	[new quinnie.objects.cinemaShows("Edf", "Bubenberg", 15, [
-		new quinnie.objects.shows("20:00"),
-		new quinnie.objects.shows("Mo", "23:00"),
-		new quinnie.objects.shows("Di", "20:00"),
-		new quinnie.objects.shows("Mi", "17:30"),
-		new quinnie.objects.shows("Mi", "20:00")
+		new quinnie.objects.shows("11/23/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/25/2014 20:00"),
+		new quinnie.objects.shows("11/26/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/28/2014 20:00"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00")
 	]),
-	new quinnie.objects.cinemaShows("Edf", "Camera", 15, [
-		new quinnie.objects.shows("Mo", "20:00"),
-		new quinnie.objects.shows("Mo", "23:00"),
-		new quinnie.objects.shows("Di", "20:00"),
-		new quinnie.objects.shows("Mi", "17:30"),
-		new quinnie.objects.shows("Mi", "20:00")
-	]),
-	new quinnie.objects.cinemaShows("Edf", "Movie 1", 15, [
-		new quinnie.objects.shows("Mo", "20:00"),
-		new quinnie.objects.shows("Mo", "23:00"),
-		new quinnie.objects.shows("Di", "20:00"),
-		new quinnie.objects.shows("Mi", "17:30"),
-		new quinnie.objects.shows("Mi", "20:00")
+	new quinnie.objects.cinemaShows("D", "Camera", 15, [
+		new quinnie.objects.shows("11/27/2014 17:15"),
+		new quinnie.objects.shows("11/28/2014 17:15"),
+		new quinnie.objects.shows("11/29/2014 17:15"),
+		new quinnie.objects.shows("11/30/2014 17:15")
 	])]));
 	
 quinnie.data.movies.push(new quinnie.objects.movie(
