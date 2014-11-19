@@ -42,7 +42,7 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="reservation.php">Reservieren</a>
+                        <a href="programm.php">Kino Programm</a>
                     </li>
                     <li>
                         <a href="cinema-overview.php">Kinos</a>

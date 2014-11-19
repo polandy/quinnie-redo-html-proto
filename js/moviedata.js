@@ -72,6 +72,10 @@ quinnie.objects.movieData = function () {
 	var self = this;
 	this.movies = ko.observableArray();
 
+	this.openMovieDetails = function () {
+		window.location = "movie.php#" + this.name();
+	};
+
 	this.newestMovies = ko.computed(function () {
 		var now = new Date();
 
@@ -116,6 +120,17 @@ quinnie.objects.movieData = function () {
 			.Take(3)
 			.ToArray();
 	});
+
+	this.selectedMovie = ko.computed(function() {
+		var hash = window.location.hash.substring(1);
+
+		return Enumerable
+			.From(this.movies())
+			.Where(function(x) {
+				return x.name() == hash;
+			})
+			.FirstOrDefault();
+	}, this);
 };
 
 moment.locale("de");

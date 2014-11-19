@@ -14,7 +14,7 @@ include "layout/header.php"; ?>
 
 			<div id="next-up">
 				<ul data-bind="foreach: nextMovies" class="movie-list">
-					<li class="clearfix panel panel-default">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
 						<div class="panel-body">
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
@@ -33,7 +33,7 @@ include "layout/header.php"; ?>
 			<h2>Soon</h2>
 			<div id="upcoming-movies">
 				<ul data-bind="foreach: upcomingMovies" class="movie-list">
-					<li class="clearfix panel panel-default">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
 						<div class="panel-body">
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
@@ -51,7 +51,7 @@ include "layout/header.php"; ?>
 			<h2>Hot</h2>
 			<div id="hot-movies">
 				<ul data-bind="foreach: newestMovies" class="movie-list">
-					<li class="clearfix panel panel-default">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
 						<div class="panel-body">
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
