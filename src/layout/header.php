@@ -43,7 +43,7 @@
                         <a href="reservation.php">Reservieren</a>
                     </li>
                     <li>
-                        <a href="#">Kinos</a>
+                        <a href="cinema-overview.php">Kinos</a>
                     </li>
                     <li>
                         <a href="#">Gutscheine</a>
