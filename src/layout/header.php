@@ -11,6 +11,8 @@
         <script src="../js/linq.min.js"></script>
         <script src="../js/jquery.linq.min.js"></script>
         <script src="../js/knockout-3.2.0.js"></script>
+        <script src="../js/moment.min.js"></script>
+        <script src="../js/moment-with-locales.min.js"></script>
         <script src="../js/moviedata.js"></script>
         <link rel="stylesheet" href="../css/main.css">
 
@@ -40,7 +42,7 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="reservation.php">Reservieren</a>
+                        <a href="programm.php">Kino Programm</a>
                     </li>
                     <li>
                         <a href="cinema-overview.php">Kinos</a>

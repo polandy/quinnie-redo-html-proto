@@ -13,14 +13,33 @@ include "layout/header.php"; ?>
 			<h2>Next Up</h2>
 
 			<div id="next-up">
-				<ul data-bind="foreach: movies" class="movie-list">
-					<li class="clearfix panel panel-default">
+				<ul data-bind="foreach: nextMovies" class="movie-list">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
 						<div class="panel-body">
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
 
-							<p data-bind="foreach: cinemaShows">
-								<span data-bind="text: cinema()+' '+language()"></span>
+							<p data-bind="if: nextCinemaShow">
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
+							</p>
+
+							<p data-bind="text: description"></p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<h2>Soon</h2>
+			<div id="upcoming-movies">
+				<ul data-bind="foreach: upcomingMovies" class="movie-list">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
+						<div class="panel-body">
+							<img data-bind="attr { src: image, title: name }" />
+							<h3 data-bind="text: name"></h3>
+
+							<p data-bind="if: nextCinemaShow">
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -29,16 +48,30 @@ include "layout/header.php"; ?>
 				</ul>
 			</div>
 
-			<script>
-				ko.applyBindings(quinnie.data, document.getElementById("#next-up"));
-			</script>
-		</div>
-		<div class="col-sm-6">
-			<h2>Soon</h2>
-
 			<h2>Hot</h2>
+			<div id="hot-movies">
+				<ul data-bind="foreach: newestMovies" class="movie-list">
+					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
+						<div class="panel-body">
+							<img data-bind="attr { src: image, title: name }" />
+							<h3 data-bind="text: name"></h3>
+
+							<p data-bind="if: nextCinemaShow">
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
+							</p>
+
+							<p data-bind="text: description"></p>
+						</div>
+					</li>
+				</ul>
+			</div>
+
 		</div>
 	</div>
+
+	<script>
+		ko.applyBindings(quinnie.data);
+	</script>
 </div>
 
 <?php include "layout/footer.php";
