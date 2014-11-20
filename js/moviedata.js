@@ -51,6 +51,16 @@ quinnie.objects.cinemaShows = function (language, cinema, cost, shows)
 				})
 				.FirstOrDefault();
 	});
+
+	this.showsAtDay = function (mom) {
+		var result =  Enumerable
+				.From(self.shows())
+				.Where(function (x) {
+					return mom.isSame(x.momentDate(), 'day');
+			}).ToArray();
+
+		return result;
+	};
 };
 
 quinnie.objects.shows = function (time) {
@@ -60,21 +70,102 @@ quinnie.objects.shows = function (time) {
 		return new Date(time);
 	});
 
-	this.formatDate = ko.computed(function () {
-		var mom = moment(this.showDate());
-
-		return mom.format("ddd DD.MM HH:MM") + " | " + mom.fromNow();
+	this.momentDate = ko.computed(function () {
+		return moment(this.showDate());
 	}, this);
-
 };
 
 quinnie.objects.movieData = function () {
 	var self = this;
 	this.movies = ko.observableArray();
 
+	this.filters = ko.observable(new quinnie.objects.filter());
+
+	this.filteredMovies = ko.computed(function () {
+
+		
+		return Enumerable.From(this.movies())
+			.Where(function (movie) {
+
+				// filter by category
+
+				var foundMatch = false;
+				
+				$(self.filters().activeCategories()).
+					each(function() {
+						if (foundMatch) { return; }
+						foundMatch = $.inArray("" + this.label(), movie.categories()) >= 0;
+				});
+
+				return foundMatch;
+			})
+			.Where(function (movie) {
+
+				// filter by cinema name.
+
+				var foundMatch = false;
+
+				$(self.filters().activeCinemas()).
+					each(function () {
+						var cinemaName = this.label();
+						if (foundMatch) { return; }
+
+						foundMatch = Enumerable
+										.From(movie.cinemaShows())
+										.Any(function (cinemaShow) {
+
+											return "" + cinemaShow.cinema() == "" + cinemaName;
+										});
+					});
+
+				return foundMatch;
+			})
+			.Where(function (movie) {
+
+				// filter by language.
+
+				var foundMatch = false;
+
+				$(self.filters().activeLanguages()).
+					each(function () {
+						var languageLabel = this.label();
+						if (foundMatch) { return; }
+
+						foundMatch = Enumerable
+										.From(movie.cinemaShows())
+										.Any(function (cinemaShow) {
+
+											return "" + cinemaShow.language() == "" + languageLabel;
+										});
+					});
+
+				return foundMatch;
+			})
+			.ToArray();
+
+	}, this);
+
 	this.openMovieDetails = function () {
 		window.location = "movie.php#" + this.name();
 	};
+
+	this.isSameDay = function(day1, day2) {
+		return day1.startOf("day") == day2.startOf("day");
+	};
+
+	this.nextSevenDays = ko.computed(function() {
+		var data = [
+			moment(),
+			moment().add(1, "days"),
+			moment().add(2, "days"),
+			moment().add(3, "days"),
+			moment().add(4, "days"),
+			moment().add(5, "days"),
+			moment().add(6, "days")
+		];
+
+		return data;
+	});
 
 	this.newestMovies = ko.computed(function () {
 		var now = new Date();
@@ -133,6 +224,40 @@ quinnie.objects.movieData = function () {
 	}, this);
 };
 
+
+quinnie.objects.filterOptions = function(text) {
+	this.label = ko.observable(text);
+	this.checked = ko.observable(true);
+};
+
+
+quinnie.objects.filter = function() {
+	this.languages = ko.observableArray(asFilterOptions(["D", "Edf", "F"]));
+	this.activeLanguages = ko.computed(function() {
+		return Enumerable.From(this.languages()).Where(function(x) { return x.checked(); }).ToArray();
+	}, this);
+
+	this.categories = ko.observableArray(asFilterOptions(["Action", "Drama", "Romance", "Adventure", "SciFi"]));
+	this.activeCategories = ko.computed(function () {
+		return Enumerable.From(this.categories()).Where(function (x) { return x.checked(); }).ToArray();
+	}, this);
+
+	this.cinemas = ko.observableArray(asFilterOptions(["Bubenberg","Camera","Club","Movie 1", "Movie 2", "Movie 3"]));
+	this.activeCinemas = ko.computed(function () {
+		return Enumerable.From(this.cinemas()).Where(function (x) { return x.checked(); }).ToArray();
+	}, this);
+
+	function asFilterOptions(options) {
+		var result = new Array();
+
+		$(options).each(function() {
+			result.push(new quinnie.objects.filterOptions(this));
+		});
+
+		return result;
+	}
+};
+
 moment.locale("de");
 quinnie.data = new quinnie.objects.movieData();
 
@@ -147,6 +272,7 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 	[new quinnie.objects.cinemaShows("Edf", "Bubenberg", 15, [
 		new quinnie.objects.shows("11/23/2014 20:00"),
 		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 13:00"),
 		new quinnie.objects.shows("11/25/2014 20:00"),
 		new quinnie.objects.shows("11/26/2014 20:00"),
 		new quinnie.objects.shows("11/27/2014 20:00"),
@@ -155,10 +281,10 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 		new quinnie.objects.shows("11/30/2014 20:00")
 	]),
 	new quinnie.objects.cinemaShows("D", "Camera", 15, [
-		new quinnie.objects.shows("11/27/2014 17:15"),
-		new quinnie.objects.shows("11/28/2014 17:15"),
-		new quinnie.objects.shows("11/29/2014 17:15"),
-		new quinnie.objects.shows("11/30/2014 17:15")
+		new quinnie.objects.shows("11/21/2014 17:15"),
+		new quinnie.objects.shows("11/22/2014 17:15"),
+		new quinnie.objects.shows("11/23/2014 17:15"),
+		new quinnie.objects.shows("11/24/2014 17:15")
 	])]));
 	
 quinnie.data.movies.push(new quinnie.objects.movie(
@@ -168,7 +294,18 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 	"http://ia.media-imdb.com/images/M/MV5BMTc4NDYzNTcyM15BMl5BanBnXkFtZTgwNjQ5NzQ0MzE@._V1_SY317_CR0,0,214,317_AL_.jpg",
 	["Drama"],
 	"Daniel Barnz",
-	["Jennifer Aniston", "Anna Kendrick", "Britt Robertson"]));
+	["Jennifer Aniston", "Anna Kendrick", "Britt Robertson"],
+	[new quinnie.objects.cinemaShows("Edf", "Bubenberg", 15, [
+		new quinnie.objects.shows("11/23/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 13:00"),
+		new quinnie.objects.shows("11/25/2014 20:00"),
+		new quinnie.objects.shows("11/26/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/28/2014 20:00"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00")
+	])]));
 	
 quinnie.data.movies.push(new quinnie.objects.movie(
 	"Fifty Shades of Grey",
@@ -177,4 +314,11 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 	"http://ia.media-imdb.com/images/M/MV5BMjE1MTM4NDAzOF5BMl5BanBnXkFtZTgwNTMwNjI0MzE@._V1_SX214_AL_.jpg",
 	["Drama", "Romance"],
 	"Sam Taylor-Johnson",
-	["Dakota Johnson", "Jamie Dornan", "Aaron Taylor-Johnson"]));
+	["Dakota Johnson", "Jamie Dornan", "Aaron Taylor-Johnson"],
+	[
+	new quinnie.objects.cinemaShows("D", "Camera", 15, [
+		new quinnie.objects.shows("11/21/2014 17:15"),
+		new quinnie.objects.shows("11/22/2014 17:15"),
+		new quinnie.objects.shows("11/23/2014 17:15"),
+		new quinnie.objects.shows("11/24/2014 17:15")
+	])]));
