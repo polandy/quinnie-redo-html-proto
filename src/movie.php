@@ -1,6 +1,11 @@
 <?php
 include "layout/header.php"; ?>
 
+<div onclick="window.history.back();" class="back-button">
+	 <span class="glyphicon glyphicon-chevron-left"></span>
+	 Zur&uuml;ck
+</div>
+
 <div data-bind="with: selectedMovie()" class="movie-details">
 	<h2 data-bind="text: name"> Movie </h2>
 	<img data-bind="attr { src: image, title: name }" class="movie-image"/>
@@ -33,6 +38,20 @@ include "layout/header.php"; ?>
 
 
 	<table class="table">
+		<colgroup>
+			<col />
+			<col />
+			<col />
+
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+		</colgroup>
+
 		<thead>
 			<tr>
 				<th>Kino</th>

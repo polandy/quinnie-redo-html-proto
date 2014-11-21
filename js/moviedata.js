@@ -143,6 +143,27 @@ quinnie.objects.movieData = function () {
 
 				return foundMatch;
 			})
+			.Where(function (movie) {
+
+				// on selected Date.
+
+				if (self.filters().movieMoment()._i != undefined && self.filters().movieMoment()._i != "") {
+
+					var any = Enumerable
+								.From(movie.cinemaShows())
+								.Any(function (cinemaShow) {
+									return Enumerable
+										.From(cinemaShow.shows())
+										.Any(function(show) {
+										return self.filters().movieMoment().isSame(show.momentDate(), 'day');
+									});
+								});
+
+					return any;
+				}
+
+				return true;
+			})
 			.ToArray();
 
 	}, this);
@@ -258,6 +279,13 @@ quinnie.objects.filter = function() {
 
 		return result;
 	}
+
+	this.movieDate = ko.observable();
+	this.movieMoment = ko.computed(function () {
+
+		console.log(moment(this.movieDate()));
+		return moment(this.movieDate());
+	}, this);
 };
 
 moment.locale("de");

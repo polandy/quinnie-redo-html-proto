@@ -119,6 +119,10 @@ footer {
 	position: relative;
 }
 
+.back-button {
+	cursor: pointer;
+}
+
 .flyout .btn {
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -150,6 +154,11 @@ footer {
 .flyout .flyout-menu ul li input
 {
 	cursor: pointer;
+}
+
+#movie-date {
+	width: 250px;
+	margin-left: 20px;
 }
 
 
