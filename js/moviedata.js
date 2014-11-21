@@ -8,6 +8,8 @@ quinnie.objects.movie = function (name, description, releaseDate, image, categor
 	this.image = ko.observable(image);
 	this.releaseDate = ko.observable(new Date(releaseDate));
 
+	this.releaseMoment = ko.observable(moment(this.releaseDate()));
+
 	this.categories = ko.observableArray(categories);
 	this.director = ko.observable(director);
 	this.actors = ko.observableArray(actors);

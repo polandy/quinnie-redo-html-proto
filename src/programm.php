@@ -6,33 +6,59 @@ include "layout/header.php"; ?>
 		<div class="col-sm-12">
 			<h1>Programm</h1>
 
-			<div id="filters" data-bind="with: filters">
+			<div id="filters" class="clearfix" data-bind="with: filters">
 
 				<div class="flyout">
-					<span class="Button">Sprachen auswählen</span>
+					<span class="btn">
+						Sprachen auswählen <span class="glyphicon glyphicon-chevron-down"></span>
+					</span>
 
-					<ul class="flyout-menu" data-bind="foreach: languages">
-						<input type="checkbox" data-bind="checked: checked, attr: { id: 'fil_lang_' + label() }" />
-						<label data-bind="text: label, attr: { 'for': 'fil_lang_' + label() }"></label>
-					</ul>
+					<div class="panel panel-default flyout-menu">
+						<div class="panel-body">
+							<ul data-bind="foreach: languages">
+								<li>
+									<input type="checkbox" data-bind="checked: checked, attr: { id: 'fil_lang_' + label() }" />
+									<label data-bind="text: label, attr: { 'for': 'fil_lang_' + label() }"></label>
+								</li>
+							</ul>
+						</div>
+					</div>
+
 				</div>
 
 				<div class="flyout">
-					<span class="Button">Kino auswählen</span>
+					<span class="btn">
+						Kino auswählen <span class="glyphicon glyphicon-chevron-down"></span>
+					</span>
 
-					<ul class="flyout-menu" data-bind="foreach: cinemas">
-						<input type="checkbox" data-bind="checked: checked" />
-						<label data-bind="text: label"></label>
-					</ul>
+					<div class="panel panel-default flyout-menu">
+						<div class="panel-body">
+							<ul data-bind="foreach: languages">
+								<li>
+									<input type="checkbox" data-bind="checked: checked, attr: { id: 'fil_lang_' + label() }" />
+									<label data-bind="text: label, attr: { 'for': 'fil_lang_' + label() }"></label>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 
 				<div class="flyout">
-					<span class="Button">Kategorie auswählen</span>
+					<span class="btn">
+						Kategorie auswählen <span class="glyphicon glyphicon-chevron-down"></span>
+					</span>
 
-					<ul class="flyout-menu" data-bind="foreach: categories">
-						<input type="checkbox" data-bind="checked: checked, attr: { 'id': 'fil_cat_' + label() }" />
-						<label data-bind="text: label, attr: { 'for': 'fil_cat_' + label() }"></label>
-					</ul>
+					<div class="panel panel-default flyout-menu">
+						<div class="panel-body">
+							<ul data-bind="foreach: categories">
+								<li>
+									<input type="checkbox" data-bind="checked: checked, attr: { 'id': 'fil_cat_' + label() }" />
+									<label data-bind="text: label, attr: { 'for': 'fil_cat_' + label() }"></label>
+								</li>
+							</ul>
+						</div>
+					</div>
+
 				</div>
 			</div>
 

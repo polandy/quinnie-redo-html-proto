@@ -65,7 +65,6 @@ include "layout/header.php"; ?>
 					</li>
 				</ul>
 			</div>
-
 		</div>
 	</div>
 

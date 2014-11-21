@@ -69,6 +69,14 @@ footer {
 	padding: 0px;
 }
 
+.movie-list div {
+	cursor: pointer;
+}
+
+.movie-list div:hover {
+	background-color: #ffffe0;
+}
+
 .movie-list img {
 	height: 180px;
 	float: left;
@@ -77,6 +85,71 @@ footer {
 
 .movie-list h3 {
 	margin-top: 0px;
+}
+
+.movie-details > img.movie-image
+{
+	float: left;
+	margin-right: 10px;
+}
+
+.movie-details .movie-info {
+	list-style: none;
+	float: right;
+	width: 300px;
+}
+
+.movie-details .movie-info .dl-horizontal dt {
+	width: 100px;
+}
+.movie-details .movie-info .dl-horizontal dd {
+	margin-left: 110px;
+}
+
+#filters {
+	margin-bottom: 15px;
+}
+
+#filters > div {
+	float: left;
+}
+
+.flyout {
+	margin-left: 20px;
+	position: relative;
+}
+
+.flyout .btn {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	margin-bottom: 4px;
+}
+
+.flyout:first-child {
+	margin-left: 0px;
+}
+
+.flyout .flyout-menu {
+	display: none;
+	position: absolute;
+	width: 100%;
+}
+
+.flyout:hover .flyout-menu {
+	display: block;
+}
+
+.flyout .flyout-menu ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.flyout .flyout-menu ul li label,
+.flyout .flyout-menu ul li input
+{
+	cursor: pointer;
 }
 
 

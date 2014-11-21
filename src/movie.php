@@ -1,33 +1,36 @@
 <?php
 include "layout/header.php"; ?>
 
-<div data-bind="with: selectedMovie()">
+<div data-bind="with: selectedMovie()" class="movie-details">
 	<h2 data-bind="text: name"> Movie </h2>
-	<img data-bind="attr { src: image, title: name }" />
+	<img data-bind="attr { src: image, title: name }" class="movie-image"/>
+
+	<div class="panel panel-default movie-info">
+		<div class="panel-body">
+
+			<dl class="dl-horizontal">
+				<dt>Release Date</dt>
+				<dd data-bind="text: releaseMoment().format('DD MMM YYYY')"></dd>
+
+				<dt>Kategorien</dt>
+				<dd data-bind="foreach: categories">
+					<span data-bind="text: $data"></span>, 
+				</dd>
+
+				<dt>Direktor</dt>
+				<dd data-bind="text: director"></dd>
+
+				<dt>Schauspieler</dt>
+				<dd data-bind="foreach: actors">
+					<span data-bind="text: $data"></span>, 
+				</dd>
+			</dl>
+		</div>
+	</div>
+
 	<p data-bind="text: description"></p>
 
-	<ul>
-		<li>
-			<label>Release Date</label>
-			<span data-bind="text: releaseDate"></span>
-		</li>
-		<li>
-			<label>Kategorien</label>
-			<span data-bind="foreach: categories">
-				<span data-bind="text: $data"></span>, 
-			</span>
-		</li>
-		<li>
-			<label>Direktor</label>
-			<span data-bind="text: director"></span>
-		</li>
-		<li>
-			<label>Schauspieler</label>
-			<span data-bind="foreach: actors">
-				<span data-bind="text: $data"></span>, 
-			</span>
-		</li>
-	</ul>
+
 
 	<table class="table">
 		<thead>
