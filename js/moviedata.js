@@ -1,292 +1,4 @@
 var quinnie = quinnie || {};
-quinnie.objects = quinnie.objects || {};
-
-quinnie.objects.movie = function (name, description, releaseDate, image, categories, director, actors, cinemaShows)
-{
-	this.name = ko.observable(name);
-	this.description = ko.observable(description);
-	this.image = ko.observable(image);
-	this.releaseDate = ko.observable(new Date(releaseDate));
-
-	this.releaseMoment = ko.observable(moment(this.releaseDate()));
-
-	this.categories = ko.observableArray(categories);
-	this.director = ko.observable(director);
-	this.actors = ko.observableArray(actors);
-
-	this.cinemaShows = ko.observableArray(cinemaShows);
-	var self = this;
-
-	this.nextCinemaShow = ko.computed(function () {
-		var now = new Date().getTime();
-
-		var result = Enumerable
-				.From(self.cinemaShows())
-				.OrderBy(function (x) {
-					var ticksInFuture = x.nextShow().showDate().getTime() - now;
-					return ticksInFuture < 0 ? Number.MAX_VALUE : ticksInFuture;
-				})
-				.FirstOrDefault();
-
-		return result;
-	});
-};
-
-quinnie.objects.cinemaShows = function (language, cinema, cost, shows)
-{
-	this.language = ko.observable(language);
-	this.cinema = ko.observable(cinema);
-	this.cost = ko.observable(cost);
-	
-	this.shows = ko.observableArray(shows);
-
-	var self = this;
-
-	this.nextShow = ko.computed(function () {
-		var now = new Date().getTime();
-
-		return Enumerable
-				.From(self.shows())
-				.OrderBy(function(x) {
-					var ticksInFuture = x.showDate().getTime() - now;
-					return ticksInFuture < 0 ? Number.MAX_VALUE : ticksInFuture;
-				})
-				.FirstOrDefault();
-	});
-
-	this.showsAtDay = function (mom) {
-		var result =  Enumerable
-				.From(self.shows())
-				.Where(function (x) {
-					return mom.isSame(x.momentDate(), 'day');
-			}).ToArray();
-
-		return result;
-	};
-};
-
-quinnie.objects.shows = function (time) {
-	this.time = ko.observable(time);
-
-	this.showDate = ko.computed(function() {
-		return new Date(time);
-	});
-
-	this.momentDate = ko.computed(function () {
-		return moment(this.showDate());
-	}, this);
-};
-
-quinnie.objects.movieData = function () {
-	var self = this;
-	this.movies = ko.observableArray();
-
-	this.filters = ko.observable(new quinnie.objects.filter());
-
-	this.filteredMovies = ko.computed(function () {
-
-		
-		return Enumerable.From(this.movies())
-			.Where(function (movie) {
-
-				// filter by category
-
-				var foundMatch = false;
-				
-				$(self.filters().activeCategories()).
-					each(function() {
-						if (foundMatch) { return; }
-						foundMatch = $.inArray("" + this.label(), movie.categories()) >= 0;
-				});
-
-				return foundMatch;
-			})
-			.Where(function (movie) {
-
-				// filter by cinema name.
-
-				var foundMatch = false;
-
-				$(self.filters().activeCinemas()).
-					each(function () {
-						var cinemaName = this.label();
-						if (foundMatch) { return; }
-
-						foundMatch = Enumerable
-										.From(movie.cinemaShows())
-										.Any(function (cinemaShow) {
-
-											return "" + cinemaShow.cinema() == "" + cinemaName;
-										});
-					});
-
-				return foundMatch;
-			})
-			.Where(function (movie) {
-
-				// filter by language.
-
-				var foundMatch = false;
-
-				$(self.filters().activeLanguages()).
-					each(function () {
-						var languageLabel = this.label();
-						if (foundMatch) { return; }
-
-						foundMatch = Enumerable
-										.From(movie.cinemaShows())
-										.Any(function (cinemaShow) {
-
-											return "" + cinemaShow.language() == "" + languageLabel;
-										});
-					});
-
-				return foundMatch;
-			})
-			.Where(function (movie) {
-
-				// on selected Date.
-
-				if (self.filters().movieMoment()._i != undefined && self.filters().movieMoment()._i != "") {
-
-					var any = Enumerable
-								.From(movie.cinemaShows())
-								.Any(function (cinemaShow) {
-									return Enumerable
-										.From(cinemaShow.shows())
-										.Any(function(show) {
-										return self.filters().movieMoment().isSame(show.momentDate(), 'day');
-									});
-								});
-
-					return any;
-				}
-
-				return true;
-			})
-			.ToArray();
-
-	}, this);
-
-	this.openMovieDetails = function () {
-		window.location = "movie.php#" + this.name();
-	};
-
-	this.isSameDay = function(day1, day2) {
-		return day1.startOf("day") == day2.startOf("day");
-	};
-
-	this.nextSevenDays = ko.computed(function() {
-		var data = [
-			moment(),
-			moment().add(1, "days"),
-			moment().add(2, "days"),
-			moment().add(3, "days"),
-			moment().add(4, "days"),
-			moment().add(5, "days"),
-			moment().add(6, "days")
-		];
-
-		return data;
-	});
-
-	this.newestMovies = ko.computed(function () {
-		var now = new Date();
-
-		return Enumerable
-			.From(self.movies())
-			.Where(function (x) {
-				return x.releaseDate().getTime() < now.getTime();
-			})
-			.OrderByDescending(function (x) {
-				return x.releaseDate().getTime();
-			})
-			.Take(3)
-			.ToArray();
-	});
-
-	this.upcomingMovies = ko.computed(function () {
-		var now = new Date();
-
-		return Enumerable
-			.From(self.movies())
-			.Where(function (x) {
-				return x.releaseDate().getTime() > now.getTime();
-			})
-			.OrderBy(function (x) {
-				return x.releaseDate().getTime();
-			})
-			.Take(3)
-			.ToArray();
-	});
-
-	this.nextMovies = ko.computed(function() {
-		var now = new Date();
-
-		return Enumerable
-			.From(self.movies())
-			.Where(function (x) {
-				return x.nextCinemaShow() != null && x.nextCinemaShow().nextShow().showDate().getTime() > now.getTime();
-			})
-			.OrderBy(function (x) {
-				return x.nextCinemaShow().nextShow().showDate().getTime();
-			})
-			.Take(3)
-			.ToArray();
-	});
-
-	this.selectedMovie = ko.computed(function() {
-		var hash = window.location.hash.substring(1);
-
-		return Enumerable
-			.From(this.movies())
-			.Where(function(x) {
-				return x.name() == hash;
-			})
-			.FirstOrDefault();
-	}, this);
-};
-
-
-quinnie.objects.filterOptions = function(text) {
-	this.label = ko.observable(text);
-	this.checked = ko.observable(true);
-};
-
-
-quinnie.objects.filter = function() {
-	this.languages = ko.observableArray(asFilterOptions(["D", "Edf", "F"]));
-	this.activeLanguages = ko.computed(function() {
-		return Enumerable.From(this.languages()).Where(function(x) { return x.checked(); }).ToArray();
-	}, this);
-
-	this.categories = ko.observableArray(asFilterOptions(["Action", "Drama", "Romance", "Adventure", "SciFi"]));
-	this.activeCategories = ko.computed(function () {
-		return Enumerable.From(this.categories()).Where(function (x) { return x.checked(); }).ToArray();
-	}, this);
-
-	this.cinemas = ko.observableArray(asFilterOptions(["Bubenberg","Camera","Club","Movie 1", "Movie 2", "Movie 3"]));
-	this.activeCinemas = ko.computed(function () {
-		return Enumerable.From(this.cinemas()).Where(function (x) { return x.checked(); }).ToArray();
-	}, this);
-
-	function asFilterOptions(options) {
-		var result = new Array();
-
-		$(options).each(function() {
-			result.push(new quinnie.objects.filterOptions(this));
-		});
-
-		return result;
-	}
-
-	this.movieDate = ko.observable();
-	this.movieMoment = ko.computed(function () {
-
-		console.log(moment(this.movieDate()));
-		return moment(this.movieDate());
-	}, this);
-};
 
 moment.locale("de");
 quinnie.data = new quinnie.objects.movieData();
@@ -345,6 +57,123 @@ quinnie.data.movies.push(new quinnie.objects.movie(
 	["Drama", "Romance"],
 	"Sam Taylor-Johnson",
 	["Dakota Johnson", "Jamie Dornan", "Aaron Taylor-Johnson"],
+	[new quinnie.objects.cinemaShows("Edf", "Bubenberg", 15, [
+		new quinnie.objects.shows("11/23/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 13:00"),
+		new quinnie.objects.shows("11/25/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 15:30"),
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 22:30"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 22:30")
+	]),
+	new quinnie.objects.cinemaShows("D", "Club", 13, [
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 22:30"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 22:30")
+	])]));
+
+quinnie.data.movies.push(new quinnie.objects.movie(
+	"Dumb and Dumber To",
+	"20 years since their first adventure, Lloyd and Harry go on a road trip to find Harry's newly discovered daughter, who was given up for adoption.",
+	"11/14/2014",
+	"http://ia.media-imdb.com/images/M/MV5BMTYxMzA0MzAyMF5BMl5BanBnXkFtZTgwMjMyNjcwMjE@._V1_SX214_AL_.jpg",
+	["Comedy"],
+	"Bobby Farrelly",
+	["Jim Carrey", "Jeff Daniels", "Rob Riggle"],
+	[
+	new quinnie.objects.cinemaShows("D", "Movie 1", 15, [
+		new quinnie.objects.shows("11/24/2014 17:15"),
+		new quinnie.objects.shows("11/25/2014 17:15"),
+		new quinnie.objects.shows("11/26/2014 17:15"),
+		new quinnie.objects.shows("11/27/2014 17:15")
+	]),
+	new quinnie.objects.cinemaShows("Edf", "Movie 2", 15, [
+		new quinnie.objects.shows("11/24/2014 22:15"),
+		new quinnie.objects.shows("11/25/2014 20:15"),
+		new quinnie.objects.shows("11/25/2014 22:15"),
+		new quinnie.objects.shows("11/27/2014 20:15")
+	]),
+	new quinnie.objects.cinemaShows("F", "Movie 3", 15, [
+		new quinnie.objects.shows("11/27/2014 17:15")
+	])
+	]));
+
+quinnie.data.movies.push(new quinnie.objects.movie(
+	"Big Hero 6",
+	"The special bond that develops between plus-sized inflatable robot Baymax, and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes.",
+	"11/07/2014",
+	"http://ia.media-imdb.com/images/M/MV5BMjI4MTIzODU2NV5BMl5BanBnXkFtZTgwMjE0NDAwMjE@._V1_SY317_CR0,0,214,317_AL_.jpg",
+	["Animation","Action","Adventure"],
+	"Don Hall",
+	["Ryan Potter", "Scott Adsit", "Jamie Chung"],
+	[
+	new quinnie.objects.cinemaShows("F", "Movie 3", 15, [
+		new quinnie.objects.shows("11/23/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 13:00"),
+		new quinnie.objects.shows("11/25/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 15:30"),
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 22:30"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 22:30")
+	])]));
+
+quinnie.data.movies.push(new quinnie.objects.movie(
+	"Interstellar",
+	"A team of explorers travel through a wormhole in an attempt to find a potentially habitable planet that will sustain humanity.",
+	"11/07/2014",
+	"http://ia.media-imdb.com/images/M/MV5BMjIxNTU4MzY4MF5BMl5BanBnXkFtZTgwMzM4ODI3MjE@._V1_SX214_AL_.jpg",
+	["Adventure", "Sci-Fi"],
+	"Christopher Nolan",
+	["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+	[
+	new quinnie.objects.cinemaShows("D", "Camera", 15, [
+		new quinnie.objects.shows("11/23/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 20:00"),
+		new quinnie.objects.shows("11/24/2014 13:00"),
+		new quinnie.objects.shows("11/25/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 15:30"),
+		new quinnie.objects.shows("11/27/2014 20:00"),
+		new quinnie.objects.shows("11/27/2014 22:30"),
+		new quinnie.objects.shows("11/29/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 20:00"),
+		new quinnie.objects.shows("11/30/2014 22:30")
+	])]));
+
+quinnie.data.movies.push(new quinnie.objects.movie(
+	"Beyond the Lights",
+	"The pressures of fame have superstar singer Noni on the edge, until she meets Kaz, a young cop who works to help her find the courage to develop her own voice and break free to become the artist she was meant to be.",
+	"11/14/2014",
+	"http://ia.media-imdb.com/images/M/MV5BMTkzNDA0NzY1Ml5BMl5BanBnXkFtZTgwMjEwMDkzMjE@._V1_SY317_CR0,0,214,317_AL_.jpg",
+	["Drama"],
+	"Gina Prince-Bythewood",
+	["Gugu Mbatha-Raw", "Nate Parker", "Minnie Driver"],
+	[
+	new quinnie.objects.cinemaShows("D", "Camera", 15, [
+		new quinnie.objects.shows("11/21/2014 20:15"),
+		new quinnie.objects.shows("11/22/2014 20:15"),
+		new quinnie.objects.shows("11/23/2014 20:15"),
+		new quinnie.objects.shows("11/24/2014 20:15"),
+		new quinnie.objects.shows("11/25/2014 20:15"),
+		new quinnie.objects.shows("11/26/2014 20:15"),
+		new quinnie.objects.shows("11/27/2014 20:15")
+	])]));
+
+quinnie.data.movies.push(new quinnie.objects.movie(
+	"Gone Girl",
+	"With his wife's disappearance having become the focus of an intense media circus, a man sees the spotlight turned on him when it's suspected that he may not be innocent.",
+	"10/03/2014",
+	"http://ia.media-imdb.com/images/M/MV5BMTk0MDQ3MzAzOV5BMl5BanBnXkFtZTgwNzU1NzE3MjE@._V1_SY317_CR0,0,214,317_AL_.jpg",
+	["Drama", "Mystery", "Thriller"],
+	"David Fincher",
+	["Ben Affleck", "Rosamund Pike", "Neil Patrick Harris"],
 	[
 	new quinnie.objects.cinemaShows("D", "Camera", 15, [
 		new quinnie.objects.shows("11/21/2014 17:15"),

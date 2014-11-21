@@ -36,72 +36,73 @@ include "layout/header.php"; ?>
 	<p data-bind="text: description"></p>
 
 
-
 	<table class="table">
-		<colgroup>
-			<col />
-			<col />
-			<col />
+								<colgroup>
+									<col />
+									<col />
+									<col />
 
-			<col width="80px" />
-			<col width="80px" />
-			<col width="80px" />
-			<col width="80px" />
-			<col width="80px" />
-			<col width="80px" />
-			<col width="80px" />
-		</colgroup>
+									<col width="80px" />
+									<col width="80px" />
+									<col width="80px" />
+									<col width="80px" />
+									<col width="80px" />
+									<col width="80px" />
+									<col width="80px" />
+								</colgroup>
 
-		<thead>
-			<tr>
-				<th>Kino</th>
-				<th>Sprache</th>
-				<th>Preis</th>
+								<thead>
+									<tr>
+										<th>Kino</th>
+										<th>Sprache</th>
+										<th>Preis</th>
 
-				<!-- ko foreach: $root.nextSevenDays() -->
-					<th><span data-bind="text: $data.format('dd')"></span></th>
-				<!-- /ko -->
-			</tr>
-		</thead>
+										<!-- ko foreach: $root.nextSevenDays() -->
+										<th>
+											<span data-bind="text: $data.format('dd')"></span>
+										</th>
+										<!-- /ko -->
+									</tr>
+								</thead>
 
-		<tbody>
-			<tbody data-bind="foreach { data: cinemaShows, as: 'cinemaShow' }">
-				<tr>
-					<td data-bind="text: cinemaShow.cinema"></td>
-					<td data-bind="text: cinemaShow.language"></td>
-					<td data-bind="text: cinemaShow.cost"></td>
+								<tbody>
+									<tbody data-bind="foreach { data: cinemaShows, as: 'cinemaShow' }">
+										<tr>
+											<td data-bind="text: cinemaShow.cinema"></td>
+											<td data-bind="text: cinemaShow.language"></td>
+											<td data-bind="text: cinemaShow.cost"></td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[0]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[0]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[1]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[1]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[2]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[2]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[3]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[3]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[4]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[4]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[5]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[5]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
 
-					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[6]), as: 'show' }">
-						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
-					</td>
-				</tr>
-			</tbody>
-		</tbody>
-	</table>
+											<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[6]), as: 'show' }">
+												<span class="reservation-link" data-bind="text: show.momentDate().format('HH:mm'), clickBubble: false, click: $root.openReservation.bind($data, $data, $parents[0], $parents[1])"></span>
+											</td>
+										</tr>
+									</tbody>
+								</tbody>
+							</table>
 
 	<script>
 		ko.applyBindings(quinnie.data);

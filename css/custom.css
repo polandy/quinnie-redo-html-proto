@@ -119,9 +119,8 @@ footer {
 	position: relative;
 }
 
-.back-button {
-	cursor: pointer;
-}
+.back-button { cursor: pointer; }
+.back-button:hover { text-decoration: underline; }
 
 .flyout .btn {
 	border: 1px solid #ddd;
@@ -161,6 +160,14 @@ footer {
 	margin-left: 20px;
 }
 
+.reservation-link
+{
+	cursor: pointer;
+}
+
+.reservation-link:hover {
+	text-decoration: underline;
+}
 
 .clearfix:after {
      visibility: hidden;

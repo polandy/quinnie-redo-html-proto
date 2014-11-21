@@ -13,6 +13,7 @@
         <script src="../js/knockout-3.2.0.js"></script>
         <script src="../js/moment.min.js"></script>
         <script src="../js/moment-with-locales.min.js"></script>
+        <script src="../js/quinnie.js"></script>
         <script src="../js/moviedata.js"></script>
         <script src="../js/bootstrap-datetimepicker.js"></script>
         <link rel="stylesheet" href="../css/main.css">

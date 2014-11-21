@@ -19,8 +19,8 @@ include "layout/header.php"; ?>
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
 
-							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
+							<p data-bind="if: nextCinemaShow, clickBubble: false, click: $root.openReservation.bind($data, $data.nextCinemaShow().nextShow(), $data.nextCinemaShow(), $data)">
+								<span class="reservation-link" data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -38,8 +38,8 @@ include "layout/header.php"; ?>
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
 
-							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
+							<p data-bind="if: nextCinemaShow, clickBubble: false, click: $root.openReservation.bind($data, $data.nextCinemaShow().nextShow(), $data.nextCinemaShow(), $data)">
+								<span class="reservation-link" data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -56,8 +56,8 @@ include "layout/header.php"; ?>
 							<img data-bind="attr { src: image, title: name }" />
 							<h3 data-bind="text: name"></h3>
 
-							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
+							<p data-bind="if: nextCinemaShow, clickBubble: false, click: $root.openReservation.bind($data, $data.nextCinemaShow().nextShow(), $data.nextCinemaShow(), $data)">
+								<span class="reservation-link" data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
