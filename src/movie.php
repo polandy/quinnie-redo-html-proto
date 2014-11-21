@@ -1,46 +1,88 @@
 <?php
 include "layout/header.php"; ?>
 
-<div data-bind="with: selectedMovie()">
+<div data-bind="with: selectedMovie()" class="movie-details">
 	<h2 data-bind="text: name"> Movie </h2>
-	<img data-bind="attr { src: image, title: name }" />
+	<img data-bind="attr { src: image, title: name }" class="movie-image"/>
+
+	<div class="panel panel-default movie-info">
+		<div class="panel-body">
+
+			<dl class="dl-horizontal">
+				<dt>Release Date</dt>
+				<dd data-bind="text: releaseMoment().format('DD MMM YYYY')"></dd>
+
+				<dt>Kategorien</dt>
+				<dd data-bind="foreach: categories">
+					<span data-bind="text: $data"></span>, 
+				</dd>
+
+				<dt>Direktor</dt>
+				<dd data-bind="text: director"></dd>
+
+				<dt>Schauspieler</dt>
+				<dd data-bind="foreach: actors">
+					<span data-bind="text: $data"></span>, 
+				</dd>
+			</dl>
+		</div>
+	</div>
+
 	<p data-bind="text: description"></p>
 
-	<ul>
-		<li>
-			<label>Release Date</label>
-			<span data-bind="text: releaseDate"></span>
-		</li>
-		<li>
-			<label>Kategorien</label>
-			<span data-bind="foreach: categories">
-				<span data-bind="text: $data"></span>, 
-			</span>
-		</li>
-		<li>
-			<label>Direktor</label>
-			<span data-bind="text: director"></span>
-		</li>
-		<li>
-			<label>Schauspieler</label>
-			<span data-bind="foreach: actors">
-				<span data-bind="text: $data"></span>, 
-			</span>
-		</li>
-	</ul>
 
-	<ul data-bind="foreach: cinemaShows">
-		<li>
-			<h3 data-bind="text: cinema"></h3>
-			<span data-bind="text: language"></span>
-			<span data-bind="text: cost"></span>
 
-			<ul data-bind="foreach: shows">
-				<li data-bind="text: formatDate"></li>
-			</ul>
-		</li>
-	</ul>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Kino</th>
+				<th>Sprache</th>
+				<th>Preis</th>
 
+				<!-- ko foreach: $root.nextSevenDays() -->
+					<th><span data-bind="text: $data.format('dd')"></span></th>
+				<!-- /ko -->
+			</tr>
+		</thead>
+
+		<tbody>
+			<tbody data-bind="foreach { data: cinemaShows, as: 'cinemaShow' }">
+				<tr>
+					<td data-bind="text: cinemaShow.cinema"></td>
+					<td data-bind="text: cinemaShow.language"></td>
+					<td data-bind="text: cinemaShow.cost"></td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[0]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[1]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[2]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[3]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[4]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[5]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+
+					<td data-bind="foreach: { data: showsAtDay($root.nextSevenDays()[6]), as: 'show' }">
+						<span data-bind="text: show.momentDate().format('HH:mm')"></span>
+					</td>
+				</tr>
+			</tbody>
+		</tbody>
+	</table>
 
 	<script>
 		ko.applyBindings(quinnie.data);

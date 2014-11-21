@@ -20,7 +20,7 @@ include "layout/header.php"; ?>
 							<h3 data-bind="text: name"></h3>
 
 							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -39,7 +39,7 @@ include "layout/header.php"; ?>
 							<h3 data-bind="text: name"></h3>
 
 							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -57,7 +57,7 @@ include "layout/header.php"; ?>
 							<h3 data-bind="text: name"></h3>
 
 							<p data-bind="if: nextCinemaShow">
-								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' +nextCinemaShow().nextShow().formatDate()"></span>
+								<span data-bind="text: nextCinemaShow().cinema()+' ( '+nextCinemaShow().language()+' ) ' + nextCinemaShow().nextShow().momentDate().format('DD.mm')+' | ' + nextCinemaShow().nextShow().momentDate().fromNow()"></span>
 							</p>
 
 							<p data-bind="text: description"></p>
@@ -65,7 +65,6 @@ include "layout/header.php"; ?>
 					</li>
 				</ul>
 			</div>
-
 		</div>
 	</div>
 
