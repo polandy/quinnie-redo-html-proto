@@ -74,6 +74,20 @@ footer {
     background: #FFFF00;
 }
 
+#numSeats {
+    margin-left: 2em;
+}
+
+.res-label {
+    font-weight: bold;
+    width: 75px;
+    display: inline-block;
+}
+
+.res-seat-field {
+    display: none;
+}
+
 
 /*************************************
 *         Movies styles
