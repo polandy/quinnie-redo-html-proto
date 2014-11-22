@@ -62,7 +62,23 @@ footer {
     margin: 0.5em;
     border: 1px solid #000000;
     float: left;
+    cursor: pointer;
 }
+
+.res-chair.occupied {
+    background: #b50000;
+    cursor: not-allowed;
+}
+
+.res-chair.selected {
+    background: #FFFF00;
+}
+
+
+/*************************************
+*         Movies styles
+*************************************/
+
 
 .movie-list {
 	list-style: none;
