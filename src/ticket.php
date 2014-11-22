@@ -29,7 +29,7 @@ $date = new DateTime($_REQUEST['dateTime']);
                     <h2>Buchungsdetails</h2>
                     <p><span class="res-label">Film:</span><span class="res-data"><?php echo $_REQUEST['name'] ?></span></p>
                     <p><span class="res-label">Kino:</span><span class="res-data"><?php echo $_REQUEST['location'] ?></span></p>
-                    <p><span class="res-label">Datum:</span><span class="res-data"><?php echo $date->format('D d. M Y') ?></span></p>
+                    <p><span class="res-label">Datum:</span><span class="res-data"><?php echo $date->format('d.m.Y') ?></span></p>
                     <p><span class="res-label">Zeit:</span><span class="res-data"><?php echo $date->format('H:i') ?></span></p>
                     <p><span class="res-label">Sprache:</span><span class="res-data"><?php echo $_REQUEST['language'] ?></span></p>
                     <p><span class="res-label">Reihe:</span><span class="res-data"><?php echo $_REQUEST['row'] ?></span></p>
