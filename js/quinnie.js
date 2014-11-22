@@ -171,7 +171,7 @@ quinnie.objects.movieData = function () {
 		return false;
 	};
 
-	this.openReservation = function (show, cinemaShow, movie) {
+	this.openReservation = function (show, cinemaShow, movie, current, event) {
 		event.preventDefault();
 		window.location = "reservation.php#" + movie.name() + ";;" + cinemaShow.language() + ";;" + cinemaShow.cinema() + ";;" + cinemaShow.cost() + ";;" + show.showDate().getTime();
 		return false;
