@@ -10,7 +10,7 @@ include "layout/header.php"; ?>
 
 	<div class="row">
 		<div class="col-sm-6">
-			<h2>Next Up</h2>
+			<h2>Als nächstes im Kino</h2>
 
 			<div id="next-up">
 				<ul data-bind="foreach: nextMovies" class="movie-list">
@@ -28,9 +28,11 @@ include "layout/header.php"; ?>
 					</li>
 				</ul>
 			</div>
+
+			<a href="programm.php">Mehr Filme</a>
 		</div>
 		<div class="col-sm-6">
-			<h2>Soon</h2>
+			<h2>Die nächsten Premieren</h2>
 			<div id="upcoming-movies">
 				<ul data-bind="foreach: upcomingMovies" class="movie-list">
 					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
@@ -47,8 +49,9 @@ include "layout/header.php"; ?>
 					</li>
 				</ul>
 			</div>
+			<a href="programm.php">Mehr Premieren</a>
 
-			<h2>Hot</h2>
+			<h2>Neu im Kino</h2>
 			<div id="hot-movies">
 				<ul data-bind="foreach: newestMovies" class="movie-list">
 					<li class="clearfix panel panel-default" data-bind="click: $parent.openMovieDetails">
@@ -65,6 +68,7 @@ include "layout/header.php"; ?>
 					</li>
 				</ul>
 			</div>
+			<a href="programm.php">Mehr Neuerscheinungen</a>
 		</div>
 	</div>
 

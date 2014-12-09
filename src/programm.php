@@ -66,6 +66,30 @@ include "layout/header.php"; ?>
 
 				</div>
 
+
+				<div class="flyout">
+					<span class="btn" style="width: 200px">
+						Specials auswählen <span class="glyphicon glyphicon-chevron-down"></span>
+					</span>
+
+					<div class="panel panel-default flyout-menu">
+						<div class="panel-body">
+							<ul>
+								<li>
+									<label><input type="checkbox" /> Opern im Kino</label>
+								</li>
+								<li>
+									<label><input type="checkbox" /> LunchKino</label>
+								</li>
+								<li>
+									<label><input type="checkbox" /> Sonntags-Matinées</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+
 				<div class='input-group date' id='movie-date'>
 					<input type='text' class="form-control" />
 					<span class="input-group-addon">

@@ -91,6 +91,10 @@ quinnie.objects.movieData = function () {
 
 				var foundMatch = false;
 
+				if ($(self.filters().activeCategories()).length == 0) {
+					return true;
+				}
+
 				$(self.filters().activeCategories()).
 					each(function () {
 						if (foundMatch) { return; }
@@ -104,6 +108,10 @@ quinnie.objects.movieData = function () {
 				// filter by cinema name.
 
 				var foundMatch = false;
+
+				if ($(self.filters().activeCinemas()).length == 0) {
+					return true;
+				}
 
 				$(self.filters().activeCinemas()).
 					each(function () {
@@ -125,6 +133,10 @@ quinnie.objects.movieData = function () {
 				// filter by language.
 
 				var foundMatch = false;
+
+				if ($(self.filters().activeLanguages()).length == 0) {
+					return true;
+				}
 
 				$(self.filters().activeLanguages()).
 					each(function () {
@@ -255,7 +267,7 @@ quinnie.objects.movieData = function () {
 
 quinnie.objects.filterOptions = function (text) {
 	this.label = ko.observable(text);
-	this.checked = ko.observable(true);
+	this.checked = ko.observable(false);
 };
 
 
