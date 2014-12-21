@@ -53,7 +53,8 @@ footer {
 
 .res-chair-row {
     width: 90%;
-    margin: 0 auto;
+    margin: 0 5%;
+    float: left;
 }
 
 .res-chair {
@@ -74,6 +75,10 @@ footer {
     background: #FFFF00;
 }
 
+.res-chair.focused {
+    background: #00FF00;
+}
+
 #numSeats {
     margin-left: 2em;
 }
@@ -86,6 +91,24 @@ footer {
 
 .res-seat-field {
     display: none;
+}
+
+.res-chair-row-middle {
+    border-bottom:1px dashed grey;
+    line-height:16px;
+    text-align:center;
+    width: 100%;
+    margin-top: -15px;
+    margin-bottom: 2px;
+    float: left;
+}
+
+.res-chair-row-middle span {
+    background:#FFF;
+    color: grey;
+    position:relative;
+    bottom:-8px; /* half of line-height */
+    padding:0 15px;
 }
 
 

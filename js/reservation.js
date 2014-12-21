@@ -22,9 +22,11 @@ reservation.manager = function () {
     this.init = function () {
         rows = $('.res-chair-row').length;
         initBookingData();
+        initFocusEventHandler();
         initSelectionEventHandler();
         initReservationHandler();
         initBuyHandler();
+        updateSeats();
     };
 
     var initBookingData = function () {
@@ -35,8 +37,8 @@ reservation.manager = function () {
             location: data[2],
             pricePerSeat: data[3],
             dateTime: moment(new Date(parseInt(data[4], 10))),
-            price : 0,
-            row : 0,
+            price: 0,
+            row: 0,
             seats: ''
         };
 
@@ -45,6 +47,40 @@ reservation.manager = function () {
         locationField.text(bookingData.location);
         dateField.text(bookingData.dateTime.format("dddd, Do MMMM YYYY"))
         timeField.text(bookingData.dateTime.format("HH:mm"));
+    };
+
+    var initFocusEventHandler = function () {
+        var seatInput = $('[name="numSeats"]');
+
+        $('.res-chair:not(.occupied)').mouseover(function () {
+            var chair = $(this),
+                numSeats = seatInput.val(),
+                chairs = [],
+                prevChair = chair.prev(),
+                isSelected = chair.hasClass('focused') && (!prevChair.length || !prevChair.hasClass('focused'));
+
+            $('.res-chair.focused').removeClass('focused');
+
+            if (!isSelected) {
+                for (var i = 0; i < numSeats; i++) {
+                    if (!chair.length || chair.hasClass('occupied')) {
+                        return;
+                    } else {
+                        chairs.push(chair);
+                        chair = chair.next();
+                    }
+                }
+
+                $.each(chairs, function (index, element) {
+                    $(element).addClass('focused');
+                });
+            }
+
+        });
+
+        $(document).on('mouseout', '.res-chair.focused', function () {
+            $('.res-chair.focused').removeClass('focused');
+        })
     };
 
     var initSelectionEventHandler = function () {
@@ -58,6 +94,7 @@ reservation.manager = function () {
                 isSelected = chair.hasClass('selected') && (!prevChair.length || !prevChair.hasClass('selected'));
 
             $('.res-chair.selected').removeClass('selected');
+            $('.res-chair.focused').removeClass('focused');
 
             if (!isSelected) {
                 for (var i = 0; i < numSeats; i++) {
@@ -106,21 +143,21 @@ reservation.manager = function () {
         seatFields.show();
     };
 
-    var initBuyHandler = function() {
-        btnBuy.click(function() {
+    var initBuyHandler = function () {
+        btnBuy.click(function () {
             $('.res-404').modal();
         });
     };
 
-    var initReservationHandler = function() {
-        btnReservation.click(function() {
+    var initReservationHandler = function () {
+        btnReservation.click(function () {
             postToUrl('ticket.php', bookingData);
         });
     };
 
-    var postToUrl = function(url, params, method, target) {
+    var postToUrl = function (url, params, method, target) {
         // create form
-        var form = $('<form/>').attr({method:method || "post", action:url});
+        var form = $('<form/>').attr({method: method || "post", action: url});
         // add target
         if (target) {
             form.attr('target', target);
