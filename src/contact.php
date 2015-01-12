@@ -13,7 +13,7 @@ include "layout/header.php"; ?>
 	            Dokumentarfilme, Schweizer Filme und Studiofilme für ein anspruchsvolles Kinopublikum.
 	        </p>
 	        <br />
-	        <img src="http://www.quinnie.ch/images/temp_home/imrichtigenfilm.jpg" width=100% height=300px />
+	        <img src="http://www.quinnie.ch/images/temp_home/imrichtigenfilm.jpg" height=300px />
 	        <br />
 	        <br />
 	        <p>
