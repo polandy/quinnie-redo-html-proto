@@ -55,7 +55,7 @@
                         <a href="cinema-overview.php">Kinos</a>
                     </li>
                     <li>
-                        <a href="#">Gutscheine</a>
+                        <a href="voucher.php">Gutscheine</a>
                     </li>
                     <li>
                         <a href="member.php">Mitgliedskarte</a>
