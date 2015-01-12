@@ -75,3 +75,7 @@
 
     <!-- Page Content -->
     <div class="container">
+        <div onclick="window.history.back();" class="back-button">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            Zur&uuml;ck
+        </div>
